@@ -1,0 +1,22 @@
+{
+  "name": "boardy",
+  "version": "1.0.0",
+  "description": "Board app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theBang/boardy.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/theBang/boardy/issues"
+  },
+  "homepage": "https://github.com/theBang/boardy#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
