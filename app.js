@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const logger = require("morgan");
 const path = require("path");
@@ -24,8 +26,8 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "dev" ? err : {};
-
+    res.locals.error = process.env.ENV === "dev" ? err : {};
+    
     res.status(err.status || 500);
     res.render("error");
 })
