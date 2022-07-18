@@ -6,7 +6,7 @@ const adminRouter = express.Router();
 const port = process.env.PORT || 3000;
 
 app.use(logger(process.env.LOG_LEVEL || "dev"));
-app.use(express.static("public"));
+app.use("./static", express.static((path.join(__dirname, 'public'))));
 
 adminRouter.get("/", (req, res) => {
     res.send("Admin route");
