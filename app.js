@@ -10,7 +10,10 @@ const isProduction = !process.env.NODE_ENV || process.env.NODE_ENV === "producti
 
 dataSource
     .initialize()
-    .then(() => {
+    .then((dataSrc) => {
+        if (isProduction) {
+            require("./migrations/mock")(dataSrc);
+        }
         console.log("db up");
     })
     .catch((err) => {
