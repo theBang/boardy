@@ -23,6 +23,9 @@
     "http-errors": "^2.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.19",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.9",
+    "typeorm": "^0.3.7"
   }
 }
