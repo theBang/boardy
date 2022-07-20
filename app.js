@@ -21,8 +21,8 @@ dataSource
     });
 
 const app = express();
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const indexRouter = require("./routes/home");
+const apiRouter = require("./routes/api");
 const port = process.env.PORT || 3000;
 
 // view engine setup
@@ -36,7 +36,7 @@ app.use("./static", express.static((path.join(__dirname, "public"))));
 
 // routes setup
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api", apiRouter);
 
 app.use((req, res, next) => {
     next(createError(404));
