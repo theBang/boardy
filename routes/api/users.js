@@ -34,4 +34,10 @@ usersRouter.put("/:id", async (req, res) => {
     res.send(results);
 })
 
+usersRouter.delete("/:id", async (req, res) => {
+    const userRepo = res.app.get("dataSource").getRepository(User);
+    const results = await userRepo.delete(req.params.id);
+    res.send(results);
+});
+
 module.exports = usersRouter;
