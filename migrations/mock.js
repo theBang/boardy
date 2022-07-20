@@ -1,10 +1,12 @@
-const User = require("../models/User");
+const User = require("../models/model/User");
 
 async function createUsers(db) {
     const userRepo = db.getRepository(User);
     const users = [];
     for(let i=0; i < 3; i++) {
-        users.push(await userRepo.create({ name: `Mockman${i}` }));
+        const user = new User();
+        user.name = `Mockman${i}`;
+        users.push(user);
     }
 
     const results = await userRepo.save(users);

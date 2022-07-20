@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const User = require("../../models/User");
+const User = require("../../models/model/User");
 const usersRouter = Router();
 
 usersRouter.get("/", async (req, res) => {
@@ -16,11 +16,12 @@ usersRouter.get("/:id", async (req, res) => {
 })
 
 usersRouter.post("/", async (req, res) => {
+    const user = new User();
+    user.name = req.body.name;
     const userRepo = res.app.get("dataSource").getRepository(User);
-    const newUser = await userRepo.create(req.body);
-    const user = await userRepo.save(newUser);
+    const results = await userRepo.save(user);
 
-    res.send(user);
+    res.send(results);
 });
 
 usersRouter.put("/:id", async (req, res) => {
