@@ -3,8 +3,7 @@ const User = require("../../models/User");
 const usersRouter = Router();
 
 usersRouter.get("/", async (req, res) => {
-    const dataSource = res.app.get("dataSource");
-    const userRepo = dataSource.getRepository(User);
+    const userRepo = res.app.get("dataSource").getRepository(User);
     const users = await userRepo.find();
     res.send(users);
 });
@@ -17,8 +16,7 @@ usersRouter.get("/:id", async (req, res) => {
 })
 
 usersRouter.post("/", async (req, res) => {
-    const dataSource = res.app.get("dataSource");
-    const userRepo = dataSource.getRepository(User);
+    const userRepo = res.app.get("dataSource").getRepository(User);
     const newUser = await userRepo.create(req.body);
     const user = await userRepo.save(newUser);
 
@@ -26,12 +24,11 @@ usersRouter.post("/", async (req, res) => {
 });
 
 usersRouter.put("/:id", async (req, res) => {
-    const dataSource = res.app.get("dataSource");
-    const userRepo = dataSource.getRepository(User);
+    const userRepo = res.app.get("dataSource").getRepository(User);
     const user = await userRepo.findOneBy({
         id: parseInt(req.params.id, 10)
     });
-    
+
     userRepo.merge(user, req.body);
     const results = await userRepo.save(user);
     res.send(results);
