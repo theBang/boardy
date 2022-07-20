@@ -16,4 +16,13 @@ usersRouter.get("/:id", async (req, res) => {
     res.send(user);
 })
 
+usersRouter.post("/", async (req, res) => {
+    const dataSource = res.app.get("dataSource");
+    const userRepo = dataSource.getRepository(User);
+    const newUser = await userRepo.create(req.body);
+    const user = await userRepo.save(newUser);
+
+    res.send(user);
+});
+
 module.exports = usersRouter;
