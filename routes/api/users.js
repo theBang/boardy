@@ -25,4 +25,16 @@ usersRouter.post("/", async (req, res) => {
     res.send(user);
 });
 
+usersRouter.put("/:id", async (req, res) => {
+    const dataSource = res.app.get("dataSource");
+    const userRepo = dataSource.getRepository(User);
+    const user = await userRepo.findOneBy({
+        id: parseInt(req.params.id, 10)
+    });
+    
+    userRepo.merge(user, req.body);
+    const results = await userRepo.save(user);
+    res.send(results);
+})
+
 module.exports = usersRouter;
