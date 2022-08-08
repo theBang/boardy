@@ -1,11 +1,12 @@
 const { DataSource } = require("typeorm");
-const User = require("./models/User");
+const UserEntity = require("./models/entity/UserEntity");
+const NoteEntity = require("./models/entity/NoteEntity");
 
 module.exports = new DataSource({
     type: "sqlite",
     database: ":memory:",
     dropSchema: true,
-    entities: [User],
+    entities: [UserEntity, NoteEntity],
     synchronize: true,
     logging: true
 });

@@ -1,26 +1,26 @@
 const { EntitySchema } = require("typeorm");
-const User = require("../model/User");
 const Note = require("../model/Note");
 
 module.exports = new EntitySchema({
-    name: "User",
-    tableName: "users",
-    target: User,
+    name: "Note", 
+    target: Note,
     columns: {
         id: {
             primary: true,
             type: "int",
             generated: true
         },
-        name: {
+        title: {
             type: "varchar"
+        },
+        text: {
+            type: "text"
         }
     },
     relations: {
-        notes: {
-            target: "Note",
-            type: "one-to-many",
-            cascade: true
+        user: {
+            target: "User",
+            type: "many-to-one"
         }
     }
 });
