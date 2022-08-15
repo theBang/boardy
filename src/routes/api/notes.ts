@@ -1,8 +1,11 @@
-const { Router } = require("express");
-const Note = require("../../models/model/Note");
+import { Router, Response } from "express";
+import { Repository } from "typeorm";
+import { Note } from "../../entity/Note";
+import createError from "http-errors";
+
 const noteRouter = Router();
 
-function getNoteRepo(res) {
+function getNoteRepo(res: Response): Repository<Note> {
     return res.app.get("dataSource").getRepository(Note);
 }
 
@@ -28,21 +31,23 @@ noteRouter.post("/", async (req, res) => {
     res.send(results);
 });
 
-noteRouter.put("/:id", async (req, res) => {
+noteRouter.put("/:id", async (req, res, next) => {
     const noteRepo = getNoteRepo(res);
     const note = await noteRepo.findOneBy({
         id: parseInt(req.params.id, 10)
     });
-
-    noteRepo.merge(note, req.body);
-    const results = await noteRepo.save(note);
-    res.send(results);
+    if (note) {
+        const results = await noteRepo.save(note);
+        res.send(results);
+    }
+    else {
+        next(createError(404));
+    }
 })
 
 noteRouter.delete("/:id", async (req, res) => {
     const results = await getNoteRepo(res).delete(req.params.id);
     res.send(results);
 });
-
-module.exports = noteRouter;
+export default noteRouter;
 
