@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./User";
 
 @Entity()
 export class Note {
@@ -10,13 +11,7 @@ export class Note {
 
     @Column("text")
     text: string;
-}
 
-// module.exports = new EntitySchema({
-//     relations: {
-//         user: {
-//             target: "User",
-//             type: "many-to-one"
-//         }
-//     }
-// });
+    @ManyToOne(() => User, (user) => user.notes)
+    user: User;
+}

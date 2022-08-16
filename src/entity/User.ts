@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from "typeorm";
+import { Note } from "./Note";
 import { Profile } from "./Profile";
 
 @Entity()
@@ -12,14 +13,7 @@ export class User {
     @OneToOne(() => Profile, (profile) => profile.user)
     @JoinColumn()
     profile: Profile;
-}
 
-// module.exports = new EntitySchema({
-//     relations: {
-//         notes: {
-//             target: "Note",
-//             type: "one-to-many",
-//             cascade: true
-//         }
-//     }
-// });
+    @OneToMany(() => Note, (note) => note.user)
+    notes: Note[]
+}

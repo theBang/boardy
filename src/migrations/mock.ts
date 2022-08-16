@@ -8,12 +8,13 @@ async function createUsers(db: DataSource) {
     for (let i = 0; i < 3; i++) {
         const notes = [];
         const userName = `user${i}`;
-        // for (let j = 0; j < 3; j++) {
-        //     const note = new Note();
-        //     note.title = `${userName}: note title ${j}`;
-        //     note.text = `${userName}: note text ${j}`;
-        //     notes.push(note);
-        // }
+        for (let j = 0; j < 3; j++) {
+            const note = new Note();
+            note.title = `${userName}: note title ${j}`;
+            note.text = `${userName}: note text ${j}`;
+            notes.push(note);
+        }
+        await db.getRepository(Note).save(notes);
         const profile = new Profile();
         profile.gender =  `user${i} gender`;
         await db.getRepository(Profile).save(profile);
@@ -21,7 +22,7 @@ async function createUsers(db: DataSource) {
         const user = new User();
         user.name = userName;
         user.profile = profile;
-        // user.notes = notes;
+        user.notes = notes;
         users.push(user);
     }
 
