@@ -1,11 +1,16 @@
 import { Router, Response } from "express";
 import { User } from "../../entity/User"
+import { Profile } from "../../entity/Profile"
 import { Repository } from "typeorm";
 import createHttpError from "http-errors";
 const usersRouter = Router();
 
 function getUserRepo(res: Response): Repository<User> {
     return res.app.get("dataSource").getRepository(User);
+}
+
+function getProfileRepo(res: Response): Repository<Profile> {
+    return res.app.get("dataSource").getRepository(Profile);
 }
 
 usersRouter.get("/", async (req, res) => {
@@ -18,6 +23,15 @@ usersRouter.get("/:id", async (req, res) => {
         id: parseInt(req.params.id, 10)
     });
     res.send(user);
+})
+
+usersRouter.get("/:id/profile", async (req, res) => {
+    const profile = await getProfileRepo(res).findOneBy({
+        user: {
+            id: parseInt(req.params.id, 10)
+        }
+    });
+    res.send(profile);
 })
 
 usersRouter.post("/", async (req, res) => {

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { Profile } from "./Profile";
 
 @Entity()
 export class User {
@@ -7,6 +8,10 @@ export class User {
 
     @Column()
     name: string;
+
+    @OneToOne(() => Profile, (profile) => profile.user)
+    @JoinColumn()
+    profile: Profile;
 }
 
 // module.exports = new EntitySchema({

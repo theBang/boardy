@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import { User } from "../entity/User";
 import { Note } from "../entity/Note";
+import { Profile } from "../entity/Profile";
 
 async function createUsers(db: DataSource) {
     const users = [];
@@ -13,8 +14,13 @@ async function createUsers(db: DataSource) {
         //     note.text = `${userName}: note text ${j}`;
         //     notes.push(note);
         // }
+        const profile = new Profile();
+        profile.gender =  `user${i} gender`;
+        await db.getRepository(Profile).save(profile);
+        
         const user = new User();
         user.name = userName;
+        user.profile = profile;
         // user.notes = notes;
         users.push(user);
     }
