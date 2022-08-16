@@ -1,7 +1,9 @@
-const User = require("../models/model/User");
-const Note = require("../models/model/Note");
+import { DataSource } from "typeorm";
+import { User } from "../entity/User";
+import { Note } from "../entity/Note";
+import { Profile } from "../entity/Profile";
 
-async function createUsers(db) {
+async function createUsers(db: DataSource) {
     const users = [];
     for (let i = 0; i < 3; i++) {
         const notes = [];
@@ -12,17 +14,22 @@ async function createUsers(db) {
             note.text = `${userName}: note text ${j}`;
             notes.push(note);
         }
+        await db.getRepository(Note).save(notes);
+        const profile = new Profile();
+        profile.gender =  `user${i} gender`;
+        await db.getRepository(Profile).save(profile);
+        
         const user = new User();
         user.name = userName;
+        user.profile = profile;
         user.notes = notes;
         users.push(user);
     }
 
     console.log("users", users);
-    const results = await db.getRepository(User).save(users);
-    return results;
+    await db.getRepository(User).save(users);
 }
 
-module.exports = async function (db) {
+export default async function (db: DataSource) {
     await createUsers(db);
 }
