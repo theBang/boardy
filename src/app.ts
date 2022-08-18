@@ -28,7 +28,7 @@ appDataSource
 
 const app: Express = express();
 import indexRouter from "./routes/home";
-import apiRouter from "./routes/api";
+import apiRouter from "./routes/api.router";
 const port = process.env.PORT || 3000;
 
 // view engine setup
