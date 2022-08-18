@@ -49,8 +49,6 @@ app.use((req, res, next) => {
     next(createError(404));
 });
 
-
-
 app.use((err: Error | HttpError, req: Request, res: Response) => {
     res.locals.message = err.message;
     res.locals.error = isProduction ? {} : err;
