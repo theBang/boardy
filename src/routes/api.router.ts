@@ -1,7 +1,7 @@
 import { Router } from "express";
 const apiRouter = Router();
 
-import * as UserController from "../controllers/user.controller";
+import UserController from "../controllers/user.controller";
 import ProfileController from "src/controllers/profile.controller";
 import NoteController from "../controllers/note.controller";
 
