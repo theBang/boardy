@@ -1,48 +1,33 @@
-import { Router, Response } from "express";
-import { User } from "../../entity/User"
-import { Profile } from "../../entity/Profile"
+import { NextFunction, Request, Response } from "express";
 import { Repository } from "typeorm";
 import createHttpError from "http-errors";
-const usersRouter = Router();
+import { User } from "../entity/User";
 
 function getUserRepo(res: Response): Repository<User> {
     return res.app.get("dataSource").getRepository(User);
 }
 
-function getProfileRepo(res: Response): Repository<Profile> {
-    return res.app.get("dataSource").getRepository(Profile);
-}
-
-usersRouter.get("/", async (req, res) => {
+async function getUsers(req: Request, res: Response) {
     const users = await getUserRepo(res).find();
     res.send(users);
-});
+}
 
-usersRouter.get("/:id", async (req, res) => {
+async function getUserById(req: Request, res: Response) {
     const user = await getUserRepo(res).findOneBy({
         id: parseInt(req.params.id, 10)
     });
     res.send(user);
-})
+}
 
-usersRouter.get("/:id/profile", async (req, res) => {
-    const profile = await getProfileRepo(res).findOneBy({
-        user: {
-            id: parseInt(req.params.id, 10)
-        }
-    });
-    res.send(profile);
-})
-
-usersRouter.post("/", async (req, res) => {
+async function createUser(req: Request, res: Response) {
     const user = new User();
     user.name = req.body.name;
     const results = await getUserRepo(res).save(user);
 
     res.send(results);
-});
+}
 
-usersRouter.put("/:id", async (req, res, next) => {
+async function updateUser(req: Request, res: Response, next: NextFunction) {
     const userRepo = getUserRepo(res);
     const user = await userRepo.findOneBy({
         id: parseInt(req.params.id, 10)
@@ -52,15 +37,20 @@ usersRouter.put("/:id", async (req, res, next) => {
         userRepo.merge(user, req.body);
         const results = await userRepo.save(user);
         res.send(results);
-    }
-    else {
+    } else {
         next(createHttpError(404));
     }
-})
+}
 
-usersRouter.delete("/:id", async (req, res) => {
+async function deleteUser(req: Request, res: Response) {
     const results = await getUserRepo(res).delete(req.params.id);
     res.send(results);
-});
+}
 
-export default usersRouter;
+export default {
+    getUsers,
+    getUserById,
+    createUser,
+    updateUser,
+    deleteUser
+};

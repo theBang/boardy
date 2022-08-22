@@ -1,37 +1,34 @@
-import { Router, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Repository } from "typeorm";
-import { Note } from "../../entity/Note";
+import { Note } from "../entity/Note";
 import createError from "http-errors";
-
-const noteRouter = Router();
 
 function getNoteRepo(res: Response): Repository<Note> {
     return res.app.get("dataSource").getRepository(Note);
 }
 
-noteRouter.get("/", async (req, res) => {
-    console.log(this);
+async function getNotes(req: Request, res: Response) {
     const notes = await getNoteRepo(res).find();
     res.send(notes);
-});
+}
 
-noteRouter.get("/:id", async (req, res) => {
+async function getNoteById(req: Request, res: Response) {
     const note = await getNoteRepo(res).findOneBy({
         id: parseInt(req.params.id, 10)
     });
     res.send(note);
-})
+}
 
-noteRouter.post("/", async (req, res) => {
+async function createNote(req: Request, res: Response) {
     const note = new Note();
     note.title = req.body.title;
     note.text = req.body.text;
     const results = await getNoteRepo(res).save(note);
 
     res.send(results);
-});
+}
 
-noteRouter.put("/:id", async (req, res, next) => {
+async function updateNote(req: Request, res: Response, next: NextFunction) {
     const noteRepo = getNoteRepo(res);
     const note = await noteRepo.findOneBy({
         id: parseInt(req.params.id, 10)
@@ -43,11 +40,17 @@ noteRouter.put("/:id", async (req, res, next) => {
     else {
         next(createError(404));
     }
-})
+}
 
-noteRouter.delete("/:id", async (req, res) => {
+async function deleteNote(req: Request, res: Response) {
     const results = await getNoteRepo(res).delete(req.params.id);
     res.send(results);
-});
-export default noteRouter;
+}
 
+export default {
+    getNotes,
+    getNoteById,
+    createNote,
+    updateNote,
+    deleteNote
+};
