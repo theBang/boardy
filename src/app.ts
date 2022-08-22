@@ -29,6 +29,7 @@ appDataSource
 const app: Express = express();
 import indexRouter from "./routes/home";
 import apiRouter from "./routes/api.router";
+import adminRouter from "./routes/admin.router";
 const port = process.env.PORT || 3000;
 
 // view engine setup
@@ -44,6 +45,7 @@ app.use("./static", express.static((path.join(__dirname, "..", "public"))));
 // routes setup
 app.use("/", indexRouter);
 app.use("/api", apiRouter);
+app.use("/admin", adminRouter);
 
 app.use((req, res, next) => {
     next(createError(404));
