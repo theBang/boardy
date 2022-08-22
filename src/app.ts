@@ -40,7 +40,7 @@ app.set("dataSource", appDataSource)
 // middleware setup
 app.use(morgan(process.env.LOG_LEVEL || "dev"));
 app.use(express.json());
-app.use("./static", express.static((path.join(__dirname, "..", "public"))));
+app.use("/static", express.static((path.join(__dirname, "..", "public"))));
 
 // routes setup
 app.use("/", indexRouter);
