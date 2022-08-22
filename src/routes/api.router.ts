@@ -2,7 +2,7 @@ import { Router } from "express";
 const apiRouter = Router();
 
 import UserController from "../controllers/user.controller";
-import ProfileController from "src/controllers/profile.controller";
+import ProfileController from "../controllers/profile.controller";
 import NoteController from "../controllers/note.controller";
 
 apiRouter.get("/users", UserController.getUsers);
