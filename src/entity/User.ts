@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from "typeorm";
 import { Note } from "./Note";
-import { Profile } from "./Profile";
 
 @Entity()
 export class User {
@@ -8,11 +7,13 @@ export class User {
     id: number;
 
     @Column()
-    name: string;
+    username: string;
 
-    @OneToOne(() => Profile, (profile) => profile.user)
-    @JoinColumn()
-    profile: Profile;
+    @Column()
+    firstName: string;
+    
+    @Column()
+    lastName: string;
 
     @OneToMany(() => Note, (note) => note.user)
     notes: Note[]
