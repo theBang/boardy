@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    width: 1440px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 0 20px 20px 20px;
 }
@@ -20,4 +20,16 @@ h1 {
 p,
 li {
     font-size: 16px;
+}
+
+table {
+    border: 1px solid #ffffff;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    border: 1px solid #fff;
+    padding: 5px;
 }
